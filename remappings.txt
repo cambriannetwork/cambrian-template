@@ -1,0 +1,1 @@
+@cambrian/contracts/=lib/cambrian-contracts/src/
