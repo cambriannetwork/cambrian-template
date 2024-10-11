@@ -12,28 +12,13 @@ contract Client is ClientBase, Ownable, IClient {
 
     mapping(bytes32 => uint8) messages;
 
-    struct SwapEvent {
-        address sender;
-        address recipient;
-        int256 amount0;
-        int256 amount1;
-        uint160 sqrtPriceX96;
-        uint128 liquidity;
-        int24 tick;
-    }
+    __EVENT_STRUCTURE__
 
-    constructor(
-        CambrianRouter router
-    )
+    constructor()
         Ownable(msg.sender)
         ClientBase(
-            router,
-            Cambrian.Query(
-                1,
-                0x4585FE77225b41b697C938B018E2Ac67Ac5a20c0,
-                "0xFC4321",
-                "last 20"
-            )
+            __CAMBRIAN_ROUTER__,
+            __CAMBRIAN_QUERY__
         )
     {}
 
@@ -49,13 +34,7 @@ contract Client is ClientBase, Ownable, IClient {
         Report calldata report
     ) external override {
         // to be overrided by custom app
-        // e.g loop through events and do something
-        for (uint256 i = 0; i < events.length; i++) {
-            SwapEvent memory swapEvent = abi.decode(
-                events[i].data,
-                (SwapEvent)
-            );
-        }
+        // handle events
     }
 
     function handleStatus(
