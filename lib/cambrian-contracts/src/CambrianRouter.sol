@@ -12,16 +12,20 @@ contract CambrianRouter {
         address contractAddress,
         uint64 startBlock,
         uint64 endBlock,
-        string query
+        string filter
     );
 
-    function execute(Cambrian.Query memory query) public returns (bytes32) {
+    function execute(
+        Cambrian.Query memory query,
+        uint64 startBlock,
+        uint64 endBlock
+    ) public returns (bytes32) {
         bytes32 messageId = keccak256(
             abi.encodePacked(
                 query.chainId,
                 query.contractAddress,
-                query.startBlock,
-                query.endBlock,
+                startBlock,
+                endBlock,
                 query.filter
             )
         );
@@ -31,8 +35,8 @@ contract CambrianRouter {
             messageId,
             query.chainId,
             query.contractAddress,
-            query.startBlock,
-            query.endBlock,
+            startBlock,
+            endBlock,
             query.filter
         );
 

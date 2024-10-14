@@ -17,13 +17,13 @@ contract Client is ClientBase, Ownable, IClient {
     constructor()
         Ownable(msg.sender)
         ClientBase(
-            CambrianRouter("__CAMBRIAN_ROUTER__"),
+            CambrianRouter(__CAMBRIAN_ROUTER__),
             __CAMBRIAN_QUERY__
         )
     {}
 
-    function executeQuery() external onlyOwner returns (bytes32) {
-        bytes32 messageId = execute();
+    function executeQuery(uint64 startBlock, uint64 endBlock) external onlyOwner returns (bytes32) {
+        bytes32 messageId = execute(startBlock, endBlock);
         messages[messageId] = 0;
         return messageId;
     }
