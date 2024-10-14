@@ -17,7 +17,7 @@ contract Client is ClientBase, Ownable, IClient {
     constructor()
         Ownable(msg.sender)
         ClientBase(
-            __CAMBRIAN_ROUTER__,
+            CambrianRouter("__CAMBRIAN_ROUTER__"),
             __CAMBRIAN_QUERY__
         )
     {}

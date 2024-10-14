@@ -6,8 +6,9 @@ library Cambrian {
     struct Query {
         uint256 chainId;
         address contractAddress;
-        string eventIdentifier;
-        string query;
+        uint64 startBlock;
+        uint64 endBlock;
+        string filter;
     }
 
     struct Event {

@@ -10,15 +10,30 @@ contract CambrianRouter {
         bytes32 indexed messageId,
         uint256 chainId,
         address contractAddress,
-        string eventIdentifier,
+        uint64 startBlock,
+        uint64 endBlock,
         string query
     );
 
     function execute(Cambrian.Query memory query) public returns (bytes32) {
-        bytes32 messageId = keccak256(abi.encodePacked(query.query));
+        bytes32 messageId = keccak256(
+            abi.encodePacked(
+                query.chainId,
+                query.contractAddress,
+                query.startBlock,
+                query.endBlock,
+                query.filter
+            )
+        );
 
         emit RequestQuery(
-            msg.sender, messageId, query.chainId, query.contractAddress, query.eventIdentifier, query.query
+            msg.sender,
+            messageId,
+            query.chainId,
+            query.contractAddress,
+            query.startBlock,
+            query.endBlock,
+            query.filter
         );
 
         return messageId;
