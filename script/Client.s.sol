@@ -15,5 +15,15 @@ contract RouterScript is Script {
         client = new Client();
 
         vm.stopBroadcast();
+
+        string memory clientAddress = "";
+
+        string memory out = vm.serializeAddress(
+            clientAddress,
+            "clientAddress",
+            address(client)
+        );
+
+        vm.writeJson(out, "./script/output/client_address.json");
     }
 }
