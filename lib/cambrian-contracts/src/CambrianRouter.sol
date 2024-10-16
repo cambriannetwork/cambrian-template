@@ -1,10 +1,8 @@
 pragma solidity ^0.8.20;
 
-import {Cambrian} from "./Cambrian.sol";
+import {CambrianQuery} from "./Cambrian.sol";
 
 contract CambrianRouter {
-    using Cambrian for Cambrian.Query;
-
     event RequestQuery(
         address indexed senderContract,
         bytes32 indexed messageId,
@@ -16,7 +14,7 @@ contract CambrianRouter {
     );
 
     function execute(
-        Cambrian.Query memory query,
+        CambrianQuery memory query,
         uint64 startBlock,
         uint64 endBlock
     ) public returns (bytes32) {

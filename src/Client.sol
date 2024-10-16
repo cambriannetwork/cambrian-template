@@ -3,13 +3,11 @@ pragma solidity ^0.8.20;
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
 import {ClientBase} from "@cambrian/contracts/ClientBase.sol";
-import {Cambrian} from "@cambrian/contracts/Cambrian.sol";
+import {CambrianQuery,CambrianEvent, Report} from "@cambrian/contracts/Cambrian.sol";
 import {IClient} from "@cambrian/contracts/IClient.sol";
 import {CambrianRouter} from "@cambrian/contracts/CambrianRouter.sol";
 
 contract Client is ClientBase, Ownable, IClient {
-    using Cambrian for Cambrian.Query;
-
     mapping(bytes32 => uint8) messages;
 
     __EVENT_STRUCTURE__
@@ -30,7 +28,7 @@ contract Client is ClientBase, Ownable, IClient {
 
     function handleSuccess(
         bytes32 messageId,
-        Cambrian.Event[] memory events,
+        CambrianEvent[] memory events,
         Report calldata report
     ) external override {
         // to be overrided by custom app
