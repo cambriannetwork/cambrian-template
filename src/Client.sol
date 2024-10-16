@@ -3,12 +3,11 @@ pragma solidity ^0.8.20;
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
 import {ClientBase} from "@cambrian/contracts/ClientBase.sol";
-import {CambrianQuery,CambrianEvent, Report} from "@cambrian/contracts/Cambrian.sol";
-import {IClient} from "@cambrian/contracts/IClient.sol";
+import {IClient,Response,Status} from "@cambrian/contracts/Cambrian.sol";
 import {CambrianRouter} from "@cambrian/contracts/CambrianRouter.sol";
 
 contract Client is ClientBase, Ownable, IClient {
-    mapping(bytes32 => uint8) messages;
+    mapping(uint256 => uint8) messages;
 
     __EVENT_STRUCTURE__
 
@@ -20,25 +19,28 @@ contract Client is ClientBase, Ownable, IClient {
         )
     {}
 
-    function executeQuery(uint64 startBlock, uint64 endBlock) external onlyOwner returns (bytes32) {
-        bytes32 messageId = execute(startBlock, endBlock);
+    function executeQuery(uint64 startBlock, uint64 endBlock) external onlyOwner returns (uint256) {
+        uint256 messageId = execute(startBlock, endBlock);
         messages[messageId] = 0;
         return messageId;
     }
 
     function handleSuccess(
-        bytes32 messageId,
-        CambrianEvent[] memory events,
-        Report calldata report
+        Response memory response
     ) external override {
-        // to be overrided by custom app
-        // handle events
+        for (uint32 i = 0; i < response.events.length; i++) {
+            __EVENT_NAME__ memory swap = abi.decode(response.events[i].data, (__EVENT_NAME__));
+            // to be overrided by custom app
+            // handle events
+        }
     }
 
     function handleStatus(
-        bytes32 messageId,
-        Report calldata report
+        Status calldata status
     ) external override {
+
+        messages[status.messageId] = status.code;
+
         // to be overrided by custom app
         // handle errors also
     }
