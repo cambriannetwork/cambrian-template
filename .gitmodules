@@ -6,4 +6,4 @@
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
 [submodule "lib/cambrian-contracts"]
 	path = lib/cambrian-contracts
-	url = https://github.com/taturosati/cambrian-contracts
+	url = https://github.com/cambriannetwork/cambrian-contracts
